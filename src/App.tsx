@@ -55,9 +55,10 @@ export default function Home() {
   const lock = useRef(false);
   const universe = useRef<HTMLElement>(null);
   const iframe = useRef<HTMLIFrameElement>(null);
+  const about = useRef<HTMLDialogElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const trigger = useRef<HTMLButtonElement | null>(null);
-  function scene(action: string) { iframe.current?.contentWindow?.postMessage({ type: 'portfolio-scene', action }, location.origin); }
+  function scene(action: string, delta = 0) { iframe.current?.contentWindow?.postMessage({ type: 'portfolio-scene', action, delta }, location.origin); }
   function back() {
     if (timer.current) clearTimeout(timer.current);
     lock.current = false; setPhase('home'); setSelected(null); scene(paused ? 'pause' : 'play');
@@ -104,20 +105,43 @@ export default function Home() {
   }, []);
   useEffect(() => {
     if (phase === 'collection') heading.current?.focus();
-    function key(e: KeyboardEvent) { if (e.key === 'Escape' && phase !== 'home') back(); }
+    function key(e: KeyboardEvent) { if (e.key === 'Escape' && phase !== 'home' && !about.current?.open) back(); }
     addEventListener('keydown', key); return () => removeEventListener('keydown', key);
   }, [phase, paused]);
+  useEffect(() => {
+    function resizeHole(event: WheelEvent) {
+      if (phase !== 'home' || !ready || about.current?.open || event.ctrlKey || event.metaKey || event.deltaY === 0) return;
+      event.preventDefault();
+      const units = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1;
+      scene('resize', Math.max(-120, Math.min(120, event.deltaY * units)));
+    }
+    window.addEventListener('wheel', resizeHole, { passive: false });
+    return () => window.removeEventListener('wheel', resizeHole);
+  }, [phase, ready]);
   return <main ref={universe} className={`universe phase-${phase}`}>
     <div className="scene" aria-hidden="true"><iframe ref={iframe} src="/experiments/horizon/index.html?preset=portal" title="A living ASCII black hole" tabIndex={-1} /><div className="scene-vignette" /></div>
+    <dialog ref={about} className="about-dialog" aria-labelledby="about-title" onClick={event => { if (event.target === event.currentTarget) { const box = event.currentTarget.getBoundingClientRect(); if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) about.current?.close(); } }}>
+      <div className="about-top"><span>README / PYM96</span><button onClick={() => about.current?.close()} aria-label="Close about me" autoFocus>ESC / CLOSE ×</button></div>
+      <div className="about-identity"><pre aria-hidden="true">{'[ R P ]\n  /_>'}</pre><div><span className="tiny">HELLO, WORLD.</span><h2 id="about-title">I’m Ryan Pan<span>.</span></h2><p>Graduate student. Builder. Curious about how models behave.</p></div></div>
+      <p className="about-intro">I build reliable agent systems and turn research ideas into reproducible engineering projects. My current interests are large language models, AI agents, and post-training.</p>
+      <div className="about-sections">
+        <section><span className="tiny">01 / BUILDING</span><h3>Agents you can inspect.</h3><p>Runtime, tool calling, trace and replay, permission control, and reproducible evaluation — the pieces behind my agent harness.</p></section>
+        <section><span className="tiny">02 / EXPLORING</span><h3>From 3D scenes to model behavior.</h3><p>I explore LLM and agent reliability, building on earlier work in 3D reconstruction, reinforcement learning, and computer vision.</p></section>
+        <section><span className="tiny">03 / SHARING</span><h3>Make the work understandable.</h3><p>I share what I learn through research tools, mathematical animations, and reusable agent skills.</p></section>
+      </div>
+      <div className="about-tags">LLM · AI AGENTS · POST-TRAINING · TOOL USE · EVALUATION</div>
+      <footer className="about-footer"><span>Away from the terminal: a meat lover.</span><a href="https://github.com/pym96" target="_blank" rel="noreferrer">Read my GitHub profile ↗</a></footer>
+    </dialog>
     <Infall active={phase === 'entering'} />
-    <header className="topbar"><button className="wordmark" onClick={back} aria-label="Return to the black hole"><span>[/]</span> ryan.pan</button><span className="top-caption"><a href="https://github.com/pym96" target="_blank" rel="noreferrer">GITHUB / PYM96 ↗</a></span><button className="motion" disabled={phase === 'entering'} onClick={() => { scene(paused ? 'play' : 'pause'); setPaused(!paused); }} aria-label={paused ? 'Resume animation' : 'Pause animation'}>{paused ? '▷ RESUME' : 'Ⅱ PAUSE'}</button></header>
+    <header className="topbar"><button className="wordmark" onClick={back} aria-label="Return to the black hole"><span>[/]</span> ryan.pan</button><nav className="profile-nav" aria-label="Profile"><button disabled={phase === 'entering'} onClick={() => about.current?.showModal()}>ABOUT ME</button><a href="https://github.com/pym96" target="_blank" rel="noreferrer">GITHUB ↗</a></nav><button className="motion" disabled={phase === 'entering'} onClick={() => { scene(paused ? 'play' : 'pause'); setPaused(!paused); }} aria-label={paused ? 'Resume animation' : 'Pause animation'}>{paused ? '▷ RESUME' : 'Ⅱ PAUSE'}</button></header>
     <div className="coordinate coord-left" aria-hidden="true">X / 00.000<br />Y / 00.000</div><div className="coordinate coord-right" aria-hidden="true">ASCII<br />EVENT HORIZON</div>
     {phase !== 'collection' && <section className="portal-home" aria-label="Explore work categories" aria-busy={phase === 'entering'}>
-      <div className="center-caption"><span className="tiny">RYAN PAN / YIMING</span><h1>Building agents. Exploring systems<span>.</span></h1><p>Graduate student · Agents, robotics, and visual explanations.</p></div>
+      <div className="center-caption"><span className="tiny">RYAN PAN / YIMING</span><h1>attention is all we need<span>.</span></h1><p>Graduate student · LLMs, AI agents, and post-training.</p></div>
       <div className="category-orbits">{categories.map((category, index) => <button key={category.id} className={`category category-${index} ${selected?.id === category.id ? 'chosen' : ''}`} disabled={phase !== 'home'} onClick={e => enter(category, e.currentTarget)}>
         <div className="category-content"><div className="category-meta"><span className="category-number">{category.number}</span><span>{category.en}</span><span className="category-arrow">↗</span></div>
         <h2 aria-label={category.title}><span aria-hidden="true">{category.title.split(' ').map((word, wi) => <span className="gravity-word" key={wi}>{[...word].map((letter, i) => <span className="gravity-letter" key={i}>{letter}</span>)}{' '}</span>)}</span></h2><p>{category.description}</p><span className="category-enter">[ EXPLORE {projects.filter(project => project.category === category.id).length} {category.id === 'skills' ? 'LIBRARY' : 'WORKS'} ]</span></div>
       </button>)}</div>
+      <div className="size-control" aria-label="Black hole size"><span>SCROLL TO RESIZE</span><button aria-label="Shrink black hole" disabled={!ready || phase !== 'home'} onClick={() => scene('resize', 100)}>−</button><button aria-label="Reset black hole size" disabled={!ready || phase !== 'home'} onClick={() => scene('reset-size')}>RESET</button><button aria-label="Enlarge black hole" disabled={!ready || phase !== 'home'} onClick={() => scene('resize', -100)}>+</button></div>
       <div className="center-reticle" aria-hidden="true">+<span>+</span></div>
       <p className="enter-status" role="status">{phase === 'entering' ? `ENTERING / ${selected?.title}` : ''}</p>
     </section>}

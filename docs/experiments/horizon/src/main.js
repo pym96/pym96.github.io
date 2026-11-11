@@ -45,6 +45,15 @@ function boot() {
       if (event.origin !== location.origin || event.source !== parent || event.data?.type !== 'portfolio-scene') return;
       if (event.data.action === 'pause') setPaused(true);
       if (event.data.action === 'play') setPaused(false);
+      if (event.data.action === 'resize' && Number.isFinite(event.data.delta)) {
+        const delta = Math.max(-120, Math.min(120, event.data.delta));
+        setMass(Math.min(innerWidth < 640 ? 0.9 : 1.4, S.mass * Math.exp(-delta * 0.0012)));
+        G.pageDirty = true;
+      }
+      if (event.data.action === 'reset-size') {
+        setMass(innerWidth < 640 ? 0.48 : 0.78);
+        G.pageDirty = true;
+      }
       if (event.data.action === 'feed') { setPaused(false); feed(); }
     });
     parent.postMessage({ type: 'portfolio-ready' }, location.origin);
