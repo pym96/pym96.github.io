@@ -166,17 +166,17 @@ export const projects = [
   },
   {
     "category": "academic",
-    "title": "NeurIPS 2026",
-    "kind": "ACADEMIC WORK",
-    "headline": "Code release coming soon.",
-    "description": "",
-    "tags": "Research",
+    "title": "MSR-3D",
+    "kind": "NEURIPS 2026",
+    "headline": "Multi-Mode Semantic Representation for Open-Vocabulary 3D Scene Understanding",
+    "description": "Find objects in reconstructed 3D scenes with natural-language queries. MSR-3D preserves multiple appearance modes across views and uses a learned matcher to select the relevant instances.",
+    "tags": "3D scene understanding \u00b7 Multi-view representation \u00b7 Open vocabulary",
     "id": "neurips-2026",
-    "linkLabel": null,
-    "url": null,
-    "secondaryLabel": null,
-    "secondaryUrl": null,
-    "note": "",
-    "status": "CODE COMING SOON"
+    "linkLabel": "Explore the code",
+    "url": "https://github.com/SparklingPumpkin/MSR-3D",
+    "secondaryLabel": "Project page & demos",
+    "secondaryUrl": "https://sparklingpumpkin.github.io/MSR-3D/",
+    "note": "Inference code and pretrained matching weights are available. The project page includes interactive 3D examples and links to the scene data.",
+    "status": null
   }
 ];
