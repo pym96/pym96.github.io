@@ -96,14 +96,14 @@ export default function Home() {
         const towardY = .5 + y - (box.top + box.height / 2) / innerHeight;
         const distance = Math.hypot(towardX, towardY);
         const strength = .7 + 1.1 * Math.exp(-Math.pow(distance / .35, 2));
-        const pull = reduced ? 0 : 9 * strength;
+        const pull = reduced ? 0 : 2.5 * strength;
         node.style.setProperty('--pull-x', `${pull * towardX / Math.max(distance, .08)}px`);
         node.style.setProperty('--pull-y', `${pull * towardY / Math.max(distance, .08)}px`);
         node.querySelectorAll<HTMLElement>('.gravity-letter').forEach((letter, i) => {
           const wave = time * .9 + i * .3 + index * 1.4;
-          const dx = reduced ? 0 : Math.sin(wave * .8) * 2.4 * strength;
-          const dy = reduced ? 0 : Math.sin(wave) * 4.0 * strength;
-          const angle = reduced ? 0 : Math.cos(wave) * 2.4 * strength;
+          const dx = reduced ? 0 : Math.sin(wave * .8) * .55 * strength;
+          const dy = reduced ? 0 : Math.sin(wave) * .8 * strength;
+          const angle = reduced ? 0 : Math.cos(wave) * .55 * strength;
           letter.style.transform = `translate(${dx.toFixed(2)}px, ${dy.toFixed(2)}px) rotate(${angle.toFixed(2)}deg)`;
         });
       });
@@ -166,7 +166,7 @@ export default function Home() {
         onLostPointerCapture={event => { drag.current = null; event.currentTarget.classList.remove('dragging'); }}
       />}
       <div className="category-orbits">{categories.map((category, index) => <button key={category.id} className={`category category-${index} ${selected?.id === category.id ? 'chosen' : ''}`} disabled={phase !== 'home'} onClick={e => enter(category, e.currentTarget)}>
-        <div className="category-content"><div className="category-meta"><span className="category-number">{category.number}</span><span>{category.en}</span><span className="category-arrow">↗</span></div>
+        <div className="category-content"><div className="category-meta"><span className="category-number">{category.number}</span><span className="category-arrow">↗</span></div>
         <h2 aria-label={category.title}><span aria-hidden="true">{category.title.split(' ').map((word, wi) => <span className="gravity-word" key={wi}>{[...word].map((letter, i) => <span className="gravity-letter" key={i}>{letter}</span>)}{' '}</span>)}</span></h2><p>{category.description}</p><span className="category-enter">[ EXPLORE {projects.filter(project => project.category === category.id).length} {category.id === 'skills' ? 'LIBRARY' : 'WORKS'} ]</span></div>
       </button>)}</div>
       <div className="size-control" aria-label="Black hole size"><button className="move-toggle" aria-label="Move black hole" aria-pressed={moveEnabled} disabled={!ready || phase !== 'home'} onClick={toggleMovement}>{moveEnabled ? 'MOVE ON · DRAG' : 'MOVE OFF'}</button><span>SCROLL TO RESIZE</span><button aria-label="Shrink black hole" disabled={!ready || phase !== 'home'} onClick={() => scene('resize', 100)}>−</button><button aria-label="Reset black hole size" disabled={!ready || phase !== 'home'} onClick={() => scene('reset-size')}>RESET</button><button aria-label="Enlarge black hole" disabled={!ready || phase !== 'home'} onClick={() => scene('resize', -100)}>+</button></div>
@@ -175,11 +175,11 @@ export default function Home() {
     </section>}
     {phase === 'collection' && selected && <section className="collection" aria-label={`${selected.title} collection`}>
       <button className="back" onClick={back}>← Back to the center <span>ESC</span></button>
-      <div className="collection-heading"><span className="tiny">SPACE {selected.number} / {selected.en}</span><h1 ref={heading} tabIndex={-1}>{selected.title}<span>.</span></h1><p>{selected.description}</p></div>
+      <div className="collection-heading"><span className="tiny">WORK / {selected.number}</span><h1 ref={heading} tabIndex={-1}>{selected.title}<span>.</span></h1><p>{selected.description}</p></div>
       <nav className="collection-nav" aria-label="Switch category">{categories.map(c => <button key={c.id} aria-current={selected.id === c.id ? 'page' : undefined} onClick={() => setSelected(c)}>{c.number} / {c.title}</button>)}</nav>
       <div className="project-list">{projects.filter(project => project.category === selected.id).map((project, index) => <article className="work-entry" key={project.id}>
-        <div className="work-index">{String(index + 1).padStart(3, '0')}<br /><span>{project.kind}</span></div>
-        <div className="work-body"><h2>{project.title}</h2><h3>{project.headline}</h3>{project.description && <p>{project.description}</p>}<div className="tags">{project.tags}</div>{project.note && <p className="credit">{project.note}</p>}</div>
+        <div className="work-index">{String(index + 1).padStart(2, '0')}</div>
+        <div className="work-body"><span className="work-kind">{project.kind}</span><h2>{project.title}</h2>{(project.category === 'academic' || !project.description) && <p className="project-summary">{project.headline}</p>}{project.description && <p>{project.description}</p>}<div className="tags">{project.tags}</div>{project.note && <details className="project-notes"><summary>Notes & attribution</summary><p className="credit">{project.note}</p></details>}</div>
         <div className="project-links">{project.url ? <a href={project.url} target="_blank" rel="noreferrer">{project.linkLabel} ↗</a> : <span className="project-status">{project.status}</span>}{project.secondaryUrl && <a href={project.secondaryUrl} target="_blank" rel="noreferrer">{project.secondaryLabel} ↗</a>}</div>
       </article>)}</div>
       <footer className="collection-footer"><a href="https://github.com/pym96?tab=repositories" target="_blank" rel="noreferrer">MORE ON GITHUB ↗</a><button onClick={back}>Back to the center ↗</button></footer>
