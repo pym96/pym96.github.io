@@ -1,3 +1,4 @@
+@font-face{font-family:'Martian Mono';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/martian-mono-regular.ttf') format('truetype')}
 :root {
   color-scheme: light;
   --bg: #f7f7f4;
