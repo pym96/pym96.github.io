@@ -18,14 +18,14 @@ export function tick(dt) {
 
   // the hole wanders on a slow looping path, or holds still with drift off
   let tx = H.tx, ty = H.ty;
-  if (S.drift && !rm) {
+  if (S.drift && !rm && !H.manual) {
     const t = st.sim, w = ss(3.2, 6.5, st.intro);
     tx = w * (0.3 * Math.sin(t * 0.17) + 0.07 * Math.sin(t * 0.43 + 1));
     ty = w * (0.1 * Math.sin(t * 0.23 + 0.6) + 0.04 * Math.sin(t * 0.51));
   }
   // Keep the large hole in the central reading gap, with a small living drift.
   // Normalize the envelope to the viewport so navigation stays clear on mobile too.
-  if (PORTAL_MODE && S.drift && !rm) {
+  if (PORTAL_MODE && S.drift && !rm && !H.manual) {
     const t = st.sim, w = ss(3.2, 6.5, st.intro);
     const ax = G.gw / G.unit * 0.02;
     const ay = G.gh / G.unit * 0.025;

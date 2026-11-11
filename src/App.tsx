@@ -50,6 +50,8 @@ export default function Home() {
   const [phase, setPhase] = useState<'home' | 'entering' | 'collection'>('home');
   const [selected, setSelected] = useState<Category | null>(null);
   const [paused, setPaused] = useState(false);
+  const [moveEnabled, setMoveEnabled] = useState(false);
+  const drag = useRef<{ id: number; x: number; y: number; holeX: number; holeY: number } | null>(null);
   const [ready, setReady] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lock = useRef(false);
@@ -59,6 +61,12 @@ export default function Home() {
   const heading = useRef<HTMLHeadingElement>(null);
   const trigger = useRef<HTMLButtonElement | null>(null);
   function scene(action: string, delta = 0) { iframe.current?.contentWindow?.postMessage({ type: 'portfolio-scene', action, delta }, location.origin); }
+  function toggleMovement() {
+    const enabled = !moveEnabled;
+    drag.current = null;
+    setMoveEnabled(enabled);
+    scene(enabled ? 'enable-move' : 'disable-move');
+  }
   function back() {
     if (timer.current) clearTimeout(timer.current);
     lock.current = false; setPhase('home'); setSelected(null); scene(paused ? 'pause' : 'play');
@@ -137,11 +145,31 @@ export default function Home() {
     <div className="coordinate coord-left" aria-hidden="true">X / 00.000<br />Y / 00.000</div><div className="coordinate coord-right" aria-hidden="true">ASCII<br />EVENT HORIZON</div>
     {phase !== 'collection' && <section className="portal-home" aria-label="Explore work categories" aria-busy={phase === 'entering'}>
       <div className="center-caption"><span className="tiny">RYAN PAN / YIMING</span><h1>attention is all we need<span>.</span></h1><p>Graduate student · LLMs, AI agents, and post-training.</p></div>
+      {moveEnabled && phase === 'home' && <div className="drag-surface" aria-hidden="true"
+        onPointerDown={event => {
+          if (event.button !== 0 || !event.isPrimary) return;
+          event.preventDefault();
+          const style = universe.current?.style;
+          drag.current = { id: event.pointerId, x: event.clientX, y: event.clientY, holeX: parseFloat(style?.getPropertyValue('--hole-x') || '50') / 100, holeY: parseFloat(style?.getPropertyValue('--hole-y') || '50') / 100 };
+          event.currentTarget.setPointerCapture(event.pointerId);
+          event.currentTarget.classList.add('dragging');
+        }}
+        onPointerMove={event => {
+          const start = drag.current;
+          if (!start || start.id !== event.pointerId) return;
+          const x = Math.max(.08, Math.min(.92, start.holeX + (event.clientX - start.x) / innerWidth));
+          const y = Math.max(.08, Math.min(.92, start.holeY + (event.clientY - start.y) / innerHeight));
+          iframe.current?.contentWindow?.postMessage({ type: 'portfolio-scene', action: 'move', x, y }, location.origin);
+        }}
+        onPointerUp={event => { drag.current = null; event.currentTarget.classList.remove('dragging'); }}
+        onPointerCancel={event => { drag.current = null; event.currentTarget.classList.remove('dragging'); }}
+        onLostPointerCapture={event => { drag.current = null; event.currentTarget.classList.remove('dragging'); }}
+      />}
       <div className="category-orbits">{categories.map((category, index) => <button key={category.id} className={`category category-${index} ${selected?.id === category.id ? 'chosen' : ''}`} disabled={phase !== 'home'} onClick={e => enter(category, e.currentTarget)}>
         <div className="category-content"><div className="category-meta"><span className="category-number">{category.number}</span><span>{category.en}</span><span className="category-arrow">↗</span></div>
         <h2 aria-label={category.title}><span aria-hidden="true">{category.title.split(' ').map((word, wi) => <span className="gravity-word" key={wi}>{[...word].map((letter, i) => <span className="gravity-letter" key={i}>{letter}</span>)}{' '}</span>)}</span></h2><p>{category.description}</p><span className="category-enter">[ EXPLORE {projects.filter(project => project.category === category.id).length} {category.id === 'skills' ? 'LIBRARY' : 'WORKS'} ]</span></div>
       </button>)}</div>
-      <div className="size-control" aria-label="Black hole size"><span>SCROLL TO RESIZE</span><button aria-label="Shrink black hole" disabled={!ready || phase !== 'home'} onClick={() => scene('resize', 100)}>−</button><button aria-label="Reset black hole size" disabled={!ready || phase !== 'home'} onClick={() => scene('reset-size')}>RESET</button><button aria-label="Enlarge black hole" disabled={!ready || phase !== 'home'} onClick={() => scene('resize', -100)}>+</button></div>
+      <div className="size-control" aria-label="Black hole size"><button className="move-toggle" aria-label="Move black hole" aria-pressed={moveEnabled} disabled={!ready || phase !== 'home'} onClick={toggleMovement}>{moveEnabled ? 'MOVE ON · DRAG' : 'MOVE OFF'}</button><span>SCROLL TO RESIZE</span><button aria-label="Shrink black hole" disabled={!ready || phase !== 'home'} onClick={() => scene('resize', 100)}>−</button><button aria-label="Reset black hole size" disabled={!ready || phase !== 'home'} onClick={() => scene('reset-size')}>RESET</button><button aria-label="Enlarge black hole" disabled={!ready || phase !== 'home'} onClick={() => scene('resize', -100)}>+</button></div>
       <div className="center-reticle" aria-hidden="true">+<span>+</span></div>
       <p className="enter-status" role="status">{phase === 'entering' ? `ENTERING / ${selected?.title}` : ''}</p>
     </section>}
@@ -156,6 +184,6 @@ export default function Home() {
       </article>)}</div>
       <footer className="collection-footer"><a href="https://github.com/pym96?tab=repositories" target="_blank" rel="noreferrer">MORE ON GITHUB ↗</a><button onClick={back}>Back to the center ↗</button></footer>
     </section>}
-    <footer className="bottom-bar"><span><i />{phase === 'entering' ? 'ENTERING SUBSPACE' : phase === 'collection' ? `SPACE ${selected?.number}` : paused ? 'TIME SUSPENDED' : ready ? 'GRAVITY IS ACTIVE' : 'INITIALIZING GRAVITY'}</span><a className="book-credit" href="https://www.gutenberg.org/ebooks/1998" target="_blank" rel="noreferrer" title="Friedrich Nietzsche · Thomas Common translation · Prologue §1">TEXT: THUS SPAKE ZARATHUSTRA / NIETZSCHE ↗</a><a href="https://github.com/SiddDevZ/horizon" target="_blank" rel="noreferrer">BLACK HOLE: HORIZON ↗</a></footer>
+    <footer className="bottom-bar"><span><i />{phase === 'entering' ? 'ENTERING SUBSPACE' : phase === 'collection' ? `SPACE ${selected?.number}` : paused ? 'TIME SUSPENDED' : ready ? 'GRAVITY IS ACTIVE' : 'INITIALIZING GRAVITY'}</span><a className="book-credit" href="https://www.gutenberg.org/ebooks/1998" target="_blank" rel="noreferrer" title="Friedrich Nietzsche · Thomas Common translation · Prologue §1">TEXT: THUS SPAKE ZARATHUSTRA / NIETZSCHE ↗</a></footer>
   </main>;
 }

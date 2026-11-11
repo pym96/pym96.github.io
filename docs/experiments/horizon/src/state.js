@@ -11,7 +11,7 @@ export const G = {
 
 // the hole: position, spring velocity, disk orientation, feed kick and pulse
 export const H = {
-  x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0,
+  x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0, manual: false,
   tilt: S.tilt * DEG, roll: -0.09, rollT: -0.09,
   kick: 0, kickV: 0, eaten: 0, pulseT: 9, pulseA: 0, spinT: 0
 };

@@ -45,6 +45,22 @@ function boot() {
       if (event.origin !== location.origin || event.source !== parent || event.data?.type !== 'portfolio-scene') return;
       if (event.data.action === 'pause') setPaused(true);
       if (event.data.action === 'play') setPaused(false);
+      if (event.data.action === 'enable-move') {
+        H.manual = true; H.tx = H.x; H.ty = H.y; H.vx = H.vy = 0;
+      }
+      if (event.data.action === 'disable-move') {
+        H.manual = false; H.tx = H.ty = 0; H.vx = H.vy = 0;
+        if (st.paused || reduced()) H.x = H.y = 0;
+        G.pageDirty = true;
+      }
+      if (event.data.action === 'move' && H.manual && Number.isFinite(event.data.x) && Number.isFinite(event.data.y)) {
+        const x = Math.max(.08, Math.min(.92, event.data.x));
+        const y = Math.max(.08, Math.min(.92, event.data.y));
+        H.x = H.tx = (x - .5) * G.W / G.unit;
+        H.y = H.ty = (.5 - y) * G.H / G.unit;
+        H.vx = H.vy = 0;
+        G.pageDirty = true;
+      }
       if (event.data.action === 'resize' && Number.isFinite(event.data.delta)) {
         const delta = Math.max(-120, Math.min(120, event.data.delta));
         setMass(Math.min(innerWidth < 640 ? 0.9 : 1.4, S.mass * Math.exp(-delta * 0.0012)));
