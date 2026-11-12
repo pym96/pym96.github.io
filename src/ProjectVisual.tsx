@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 type Visual = { image: string; video?: string; caption: string; source: string; kind: string; alt: string };
 const visuals: Record<string, Visual> = {
+  'MA_Sentry': { image: 'ma-sentry.webp', caption: 'ROS data flow from the project README: sensor inputs, localization, terrain analysis, planning, and decision nodes.', source: 'https://github.com/pym96/MA_Sentry/tree/final', kind: 'SYSTEM ARCHITECTURE / ROS', alt: 'MA Sentry ROS data-flow diagram connecting Livox sensors, Faster-LIO, state estimation, terrain analysis, planning, and decision nodes' },
   'math-animation': { image: 'bezier-published.webp', video: 'bezier-published.mp4', caption: 'My published tutorial on piecewise Bézier curves and path generation for autonomous driving. Full video; higher-resolution playback on Bilibili.', source: 'https://www.bilibili.com/video/BV1MkVwzzECU/', kind: 'MANIM / PUBLISHED TUTORIAL', alt: 'Piecewise Bézier curves with control points and continuity constraints, from my path-generation tutorial' },
   'rotation-matrix': { image: 'rotation.webp', caption: 'The interactive rotation demo shown in the repository README: cube, angle controls, and rotation matrices.', source: 'https://github.com/pym1900/roation_matrix_turorial', kind: 'INTERACTIVE DEMO / CAPTURE', alt: 'A 3D cube with X, Y, Z rotation sliders and the corresponding matrices' },
   'Pan-agent': { image: 'pan-agent.webp', video: 'pan-agent.mp4', caption: 'Recorded v0.1.0 terminal demo: a file task followed by saved-run replay. Idle waits shortened; input automated.', source: 'https://github.com/pym96/Pan-agent/releases/tag/v0.1.0', kind: 'TERMINAL RECORDING', alt: 'Pan Agent executing a file task in its terminal interface' },
@@ -15,7 +16,6 @@ const visuals: Record<string, Visual> = {
 };
 const workflows: Record<string, { steps: [string, string][]; caption: string; source: string }> = {
   'pi-agent-platform': { steps: [['01 / SUBMIT', 'Text task'], ['02 / EXECUTE', 'Pi SDK'], ['03 / PERSIST', 'PostgreSQL events']], caption: 'Service schematic: committed events stream over SSE; reconnect with a cursor to resume reading history.', source: 'https://github.com/pym96/pi-agent-platform' },
-  'Paper-Translation-Tools': { steps: [['01 / INPUT', 'Paper.pdf'], ['02 / PROCESS', 'Extract + translate'], ['03 / OUTPUT', 'Bilingual.docx']], caption: 'Workflow schematic: original and translated passages are organized in a Word document. Figure positions are marked for manual insertion.', source: 'https://github.com/pym96/Paper-Translation-Tools' },
 };
 
 export default function ProjectVisual({ id }: { id: string }) {

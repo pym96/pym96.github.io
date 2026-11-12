@@ -76,6 +76,21 @@ export const projects = [
   },
   {
     "category": "previous",
+    "title": "MA Sentry",
+    "kind": "ROBOTICS / SYSTEM INTEGRATION",
+    "headline": "Connect localization, planning, and robot control.",
+    "description": "The MA team’s 2024 sentry robot codebase. A ROS stack bringing together LiDAR-inertial localization, terrain analysis, navigation, and decision logic, with simulation and hardware communication packages.",
+    "tags": "C++ · ROS · LiDAR / IMU · Navigation",
+    "id": "MA_Sentry",
+    "linkLabel": "Explore the system",
+    "url": "https://github.com/pym96/MA_Sentry/tree/final",
+    "secondaryLabel": "View the RViz clip",
+    "secondaryUrl": "https://github.com/pym96/MA_Sentry/assets/105438207/54a1b719-e381-4962-ab62-0fa8ce5e9e83",
+    "note": "Team project integrating upstream components including Faster-LIO and the CMU autonomous exploration environment. The README recommends the final branch; the diagram documents the project’s ROS data flow.",
+    "status": null
+  },
+  {
+    "category": "previous",
     "title": "Warehouse Omni Navigation",
     "kind": "ROBOTICS / NAVIGATION",
     "headline": "A simulated warehouse for an omnidirectional robot.",
@@ -132,21 +147,6 @@ export const projects = [
     "secondaryLabel": null,
     "secondaryUrl": null,
     "note": "The preview is the interactive web demo shown in the repository README. The README marks the companion Manim scripts as TODO.",
-    "status": null
-  },
-  {
-    "category": "previous",
-    "title": "Paper Translation Tools",
-    "kind": "RESEARCH / UTILITY",
-    "headline": "Turn a paper into a bilingual working document.",
-    "description": "Extract text from a PDF and organize original and translated passages in a Word document, with figure markers and an Ollama translation option.",
-    "tags": "Python · PDF · Document workflows",
-    "id": "Paper-Translation-Tools",
-    "linkLabel": "Explore the tool",
-    "url": "https://github.com/pym96/Paper-Translation-Tools",
-    "secondaryLabel": null,
-    "secondaryUrl": null,
-    "note": "Figure markers support manual image placement; generated translations need review.",
     "status": null
   },
   {
