@@ -17,6 +17,11 @@ The Pi Agent Platform and Paper Translation Tools diagrams summarize their docum
 
 ## Mathematical visualization additions
 
-- `bezier.mp4` and `bezier.webp`: rendered without source modifications from `pym96/my_math_animation`, commit `6b33f22874c8ddbc9db79d96ad426d977721ad12`, `2024_/bezier.py`, `ComplexBezierScene`, using Manim Community 0.18.1 at 720p / 30 fps. H.264 web transcode; poster at 7 seconds. This is a source render, not an excerpt retrieved from Bilibili.
 - `rotation.webp`: repository README screenshot, https://github.com/user-attachments/assets/b588e0e5-5507-4037-8046-28c1ec8416de, from `pym1900/roation_matrix_turorial` (reviewed at `672fa7fe8f108b29a68abe242cae3a02a2d896e0`). Resized to 1280px and encoded as WebP.
 - Bilibili and Xiaohongshu profile URLs were provided by the owner. Their feed contents were not available during this update; no titles, metrics, or video links were inferred from those feeds.
+
+## Published Bézier tutorial
+
+- `bezier-published.mp4`: the owner's full published tutorial, https://www.bilibili.com/video/BV1MkVwzzECU/ (title: 自动驾驶中的路径生成基础——多段贝塞尔曲线; owner mid 496878537, matching the supplied profile). Public playback copy at 640×360, 172.853 seconds, original audio retained. Remuxed with faststart; not re-edited or upscaled. Higher-resolution viewing links to Bilibili.
+- `bezier-published.webp`: the video's actual cover, https://i0.hdslb.com/bfs/archive/0ede58f5e2adbfa22be1401095f521f0352b4b82.jpg, scaled to 1280px and encoded as WebP.
+- Replaces the earlier source-rendered `ComplexBezierScene` preview. The linked animation repository remains the source-code entry.

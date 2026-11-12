@@ -109,14 +109,14 @@ export const projects = [
     "title": "Bézier Curves & Manim",
     "kind": "MATH / ANIMATION",
     "headline": "From control points to motion.",
-    "description": "Manim studies of Bézier curves, interpolation, and motion along a path. The collection also explores piecewise continuity, path planning, and Newton’s method through animation.",
+    "description": "A Manim tutorial on joining Bézier segments into paths for autonomous driving. It visualizes control points and continuity constraints to explain how the pieces fit together.",
     "tags": "Python · Manim · Geometry",
     "id": "math-animation",
     "linkLabel": "Explore the animation source",
     "url": "https://github.com/pym96/my_math_animation",
-    "secondaryLabel": "More videos on Bilibili",
-    "secondaryUrl": "https://space.bilibili.com/496878537",
-    "note": "Preview rendered from the repository’s 2024_/bezier.py, ComplexBezierScene. It is a source-rendered excerpt, not a recording of the published tutorial.",
+    "secondaryLabel": "Watch on Bilibili",
+    "secondaryUrl": "https://www.bilibili.com/video/BV1MkVwzzECU/",
+    "note": "Published as 自动驾驶中的路径生成基础——多段贝塞尔曲线 on Bilibili. The portfolio uses a 360p copy with original audio; the source repository also includes interpolation and Newton’s method animations.",
     "status": null
   },
   {
