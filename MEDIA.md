@@ -31,3 +31,10 @@ The Pi Agent Platform diagram summarizes its documented workflow. The skills dia
 - `ma-sentry.webp`: the existing ROS data-flow diagram in the project README, https://github.com/pym96/MA_Sentry/assets/105438207/6373742c-4ca8-4d8a-8e34-64be34388b41. Converted to WebP at its original size.
 - The source link targets `final`, as recommended by the README. Team and upstream credits are preserved in the project notes.
 - The secondary link opens the README’s short RViz recording. No claim of a full autonomous run is made from that clip.
+
+## Sentry mapping, ASCII cube, and team training update
+
+- `ma-sentry-mapping.mp4` / `.webp`: the 3.32-second README recording at https://github.com/pym96/MA_Sentry/assets/105438207/54a1b719-e381-4962-ab62-0fa8ce5e9e83. Web transcode at 1280px; audio omitted; poster at 2 seconds. Replaces the architecture image as the main project visual.
+- `ascii-cube.mp4` / `.webp`: captured stdout from an actual eight-second run of `pym1900/cc_geometry/rotation_cube.cc`, compiled unchanged with `clang++ -std=c++11 -O2`. Complete output frames are rendered with Menlo on a dark background, using fixed bounds across the recording to center the cube. Original frame order and approximate recording duration are retained. This is executable output, not an independently recreated animation.
+- `ma-training.png`: the exact image supplied by the owner in this conversation, unmodified; visible original `void_ccc` attribution retained. The full-resolution file is linked from the preview. It is presented as reference material, not claimed as original artwork.
+- Rotation Matrices and Matrix entries are replaced by MA Training and ASCII Rotation Cube.
