@@ -111,3 +111,5 @@
 .work-entry .engineering-branches p{font-size:12px;margin:4px 0 8px;line-height:1.7}
 .engineering-branches a{font:10px/1.7 var(--mono);color:#435737;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
 @media(max-width:600px){.center-caption .profile-identity,.center-caption .profile-interests{font-size:9px;max-width:310px}.engineering-root{margin:18px 14px 0}.engineering-root>strong{font-size:17px}.engineering-branches{padding:0 14px 20px}.engineering-branches li{padding-left:16px}}
+
+.work-channels{display:flex;flex-wrap:wrap;gap:12px 20px;padding:18px 0 0;font:10px/1.8 var(--mono);color:#526047}.work-channels>span{color:var(--muted)}.work-channels a{text-decoration:underline;text-underline-offset:4px}

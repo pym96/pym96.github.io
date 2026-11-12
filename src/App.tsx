@@ -6,7 +6,7 @@ import ProjectVisual from './ProjectVisual';
 
 type Category = { id: string; number: string; title: string; en: string; description: string; glyph: string };
 const categories: Category[] = [
-  { id: 'previous', number: '01', title: 'Previous Work', en: 'PREVIOUS WORK', description: 'Robotics and earlier explorations.', glyph: '[ ]' },
+  { id: 'previous', number: '01', title: 'Previous Work', en: 'PREVIOUS WORK', description: 'Math in motion, creative code, and robotics.', glyph: '[ ]' },
   { id: 'current', number: '02', title: 'Current Work', en: 'CURRENT WORK', description: 'Agents, tools, and what I am building now.', glyph: '{ }' },
   { id: 'academic', number: '03', title: 'Academic Work', en: 'ACADEMIC WORK', description: 'Research, collaborations, and forthcoming code.', glyph: '</>' },
   { id: 'skills', number: '04', title: 'My Skills', en: 'MY SKILLS', description: 'Engineering judgment, encoded as skills.', glyph: '.*' },
@@ -177,6 +177,7 @@ export default function Home() {
       <button className="back" onClick={back}>← Back to the center <span>ESC</span></button>
       <div className="collection-heading"><span className="tiny">WORK / {selected.number}</span><h1 ref={heading} tabIndex={-1}>{selected.title}<span>.</span></h1><p>{selected.description}</p></div>
       <nav className="collection-nav" aria-label="Switch category">{categories.map(c => <button key={c.id} aria-current={selected.id === c.id ? 'page' : undefined} onClick={() => setSelected(c)}>{c.number} / {c.title}</button>)}</nav>
+      {selected.id === 'previous' && <nav className="work-channels" aria-label="More creative work"><span>ELSEWHERE /</span><a href="https://github.com/pym1900" target="_blank" rel="noreferrer">pym1900 ↗</a><a href="https://space.bilibili.com/496878537" target="_blank" rel="noreferrer">Bilibili ↗</a><a href="https://www.xiaohongshu.com/user/profile/65e5b215000000000500ac51" target="_blank" rel="noreferrer">Xiaohongshu ↗</a></nav>}
       <div className="project-list">{projects.filter(project => project.category === selected.id).map((project, index) => <article className="work-entry" key={project.id}>
         <div className="work-index">{String(index + 1).padStart(2, '0')}</div>
         <div className="work-body"><span className="work-kind">{project.kind}</span><h2>{project.title}</h2><ProjectVisual id={project.id} />{(project.category === 'academic' || !project.description) && <p className="project-summary">{project.headline}</p>}{project.description && <p>{project.description}</p>}<div className="tags">{project.tags}</div>{project.note && <details className="project-notes"><summary>Notes & attribution</summary><p className="credit">{project.note}</p></details>}</div>
