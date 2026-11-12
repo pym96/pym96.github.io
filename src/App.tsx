@@ -9,7 +9,7 @@ const categories: Category[] = [
   { id: 'previous', number: '01', title: 'Previous Work', en: 'PREVIOUS WORK', description: 'Robotics and earlier explorations.', glyph: '[ ]' },
   { id: 'current', number: '02', title: 'Current Work', en: 'CURRENT WORK', description: 'Agents, tools, and what I am building now.', glyph: '{ }' },
   { id: 'academic', number: '03', title: 'Academic Work', en: 'ACADEMIC WORK', description: 'Research, collaborations, and forthcoming code.', glyph: '</>' },
-  { id: 'skills', number: '04', title: 'My Skills', en: 'MY SKILLS', description: 'Reusable agent skills. My own workflow.', glyph: '.*' },
+  { id: 'skills', number: '04', title: 'My Skills', en: 'MY SKILLS', description: 'Engineering judgment, encoded as skills.', glyph: '.*' },
 ];
 
 function Infall({ active }: { active: boolean }) {
@@ -131,7 +131,7 @@ export default function Home() {
     <div className="scene" aria-hidden="true"><iframe ref={iframe} src="/experiments/horizon/index.html?preset=portal" title="A living ASCII black hole" tabIndex={-1} /><div className="scene-vignette" /></div>
     <dialog ref={about} className="about-dialog" aria-labelledby="about-title" onClick={event => { if (event.target === event.currentTarget) { const box = event.currentTarget.getBoundingClientRect(); if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) about.current?.close(); } }}>
       <div className="about-top"><span>README / PYM96</span><button onClick={() => about.current?.close()} aria-label="Close about me" autoFocus>ESC / CLOSE ×</button></div>
-      <div className="about-identity"><pre aria-hidden="true">{'[ R P ]\n  /_>'}</pre><div><span className="tiny">HELLO, WORLD.</span><h2 id="about-title">I’m Ryan Pan<span>.</span></h2><p>Graduate student. Builder. Curious about how models behave.</p></div></div>
+      <div className="about-identity"><pre aria-hidden="true">{'[ R P ]\n  /_>'}</pre><div><span className="tiny">HELLO, WORLD.</span><h2 id="about-title">I’m Ryan Pan<span>.</span></h2><p>Graduate student · Intern @ NVIDIA. Curious about how models behave.</p></div></div>
       <p className="about-intro">I build reliable agent systems and turn research ideas into reproducible engineering projects. My current interests are large language models, AI agents, and post-training.</p>
       <div className="about-sections">
         <section><span className="tiny">01 / BUILDING</span><h3>Agents you can inspect.</h3><p>Runtime, tool calling, trace and replay, permission control, and reproducible evaluation — the pieces behind my agent harness.</p></section>
@@ -143,9 +143,8 @@ export default function Home() {
     </dialog>
     <Infall active={phase === 'entering'} />
     <header className="topbar"><button className="wordmark" onClick={back} aria-label="Return to the black hole"><span>[/]</span> ryan.pan</button><nav className="profile-nav" aria-label="Profile"><button disabled={phase === 'entering'} onClick={() => about.current?.showModal()}>ABOUT ME</button><a href="https://github.com/pym96" target="_blank" rel="noreferrer">GITHUB ↗</a></nav><button className="motion" disabled={phase === 'entering'} onClick={() => { scene(paused ? 'play' : 'pause'); setPaused(!paused); }} aria-label={paused ? 'Resume animation' : 'Pause animation'}>{paused ? '▷ RESUME' : 'Ⅱ PAUSE'}</button></header>
-    <div className="coordinate coord-left" aria-hidden="true">X / 00.000<br />Y / 00.000</div><div className="coordinate coord-right" aria-hidden="true">ASCII<br />EVENT HORIZON</div>
     {phase !== 'collection' && <section className="portal-home" aria-label="Explore work categories" aria-busy={phase === 'entering'}>
-      <div className="center-caption"><span className="tiny">RYAN PAN / YIMING</span><h1>attention is all we need<span>.</span></h1><p>Graduate student · LLMs, AI agents, and post-training.</p></div>
+      <div className="center-caption"><span className="tiny">RYAN PAN / YIMING</span><h1>attention is all we need<span>.</span></h1><p className="profile-identity">Graduate student · Intern @ <strong>NVIDIA</strong></p><p className="profile-interests">LLMs, AI agents, and post-training.</p></div>
       {moveEnabled && phase === 'home' && <div className="drag-surface" aria-hidden="true"
         onPointerDown={event => {
           if (event.button !== 0 || !event.isPrimary) return;

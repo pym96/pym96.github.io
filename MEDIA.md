@@ -13,4 +13,4 @@ Project previews use existing public project material. Local copies are resized 
 | matrix | Screenshot rendered from https://github.com/pym96/matrix (`index.html`, `matrix.js`, `IMG_0992.JPG`) |
 | horizon | Screenshot of this site's renderer, adapted from SiddDevZ/horizon (MIT; license retained) |
 
-The Pi Agent Platform and Paper Translation Tools diagrams summarize their documented workflows. The skill diagram is explicitly labeled an example workflow, not a recorded execution. BVI has a private-materials placeholder; it does not depict unpublished results.
+The Pi Agent Platform and Paper Translation Tools diagrams summarize their documented workflows. The skills diagram presents engineering principles summarized from the library README, with links to the corresponding skills; it is not a recorded execution. BVI has a private-materials placeholder; it does not depict unpublished results.

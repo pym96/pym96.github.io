@@ -14,7 +14,6 @@ const visuals: Record<string, Visual> = {
 const workflows: Record<string, { steps: [string, string][]; caption: string; source: string }> = {
   'pi-agent-platform': { steps: [['01 / SUBMIT', 'Text task'], ['02 / EXECUTE', 'Pi SDK'], ['03 / PERSIST', 'PostgreSQL events']], caption: 'Service schematic: committed events stream over SSE; reconnect with a cursor to resume reading history.', source: 'https://github.com/pym96/pi-agent-platform' },
   'Paper-Translation-Tools': { steps: [['01 / INPUT', 'Paper.pdf'], ['02 / PROCESS', 'Extract + translate'], ['03 / OUTPUT', 'Bilingual.docx']], caption: 'Workflow schematic: original and translated passages are organized in a Word document. Figure positions are marked for manual insertion.', source: 'https://github.com/pym96/Paper-Translation-Tools' },
-  'skills': { steps: [['01 / DRAFT', 'Research paper'], ['02 / REVIEW', 'paper-reader'], ['03 / REVISE', 'Gaps + objections']], caption: 'Example workflow, not a recorded run. The library also includes testing, delivery, and engineering-judgment skills.', source: 'https://github.com/pym96/skills' },
 };
 
 export default function ProjectVisual({ id }: { id: string }) {
@@ -32,11 +31,20 @@ export default function ProjectVisual({ id }: { id: string }) {
     {visual.video ? <video ref={video} controls playsInline preload="none" poster={`/media/${visual.image}`} aria-label={visual.alt} src={`/media/${visual.video}`}><a href={`/media/${visual.video}`}>Open video</a></video> : <a className="visual-image-link" href={visual.source} target="_blank" rel="noreferrer"><img src={`/media/${visual.image}`} alt={visual.alt} width="1280" height="720" loading="lazy" decoding="async" /></a>}
     <figcaption>{visual.caption} <a href={visual.source} target="_blank" rel="noreferrer">Source ↗</a></figcaption>
   </figure>;
+  if (id === 'skills') return <figure className="project-visual engineering-map">
+    <div className="visual-label"><span>ENGINEERING / DESIGN PHILOSOPHY</span><span>[ / ]</span></div>
+    <div className="engineering-root"><span>ROOT</span><strong>Engineering judgment</strong><p>Good technical taste lives in the decisions.</p></div>
+    <ul className="engineering-branches">
+      <li><span>01 / FRAME</span><h3>Start with constraints.</h3><p>Make the problem, resources, and trade-offs explicit.</p><a href="https://github.com/pym96/skills/tree/main/systems-design-reasoning">systems-design-reasoning ↗</a></li>
+      <li><span>02 / DESIGN</span><h3>Make boundaries count.</h3><p>Choose abstractions by what they hide and what they enforce.</p><a href="https://github.com/pym96/skills/tree/main/systems-design-reasoning">systems-design-reasoning ↗</a></li>
+      <li><span>03 / VERIFY</span><h3>Let evidence decide.</h3><p>Test behavior, retain regressions, and verify before delivery.</p><a href="https://github.com/pym96/skills/tree/main/regression-guard">regression-guard ↗</a></li>
+    </ul>
+    <figcaption>These principles shape the library: systems design, behavioral testing, and evidence-gated delivery. <a href="https://github.com/pym96/skills">Browse the skills ↗</a></figcaption>
+  </figure>;
   const workflow = workflows[id];
   if (workflow) return <figure className="project-visual visual-schematic">
-    <div className="visual-label"><span>{id === 'skills' ? 'SKILL IN USE / EXAMPLE' : 'WORKFLOW / SCHEMATIC'}</span><span>→</span></div>
+    <div className="visual-label"><span>{'WORKFLOW / SCHEMATIC'}</span><span>→</span></div>
     <ol className="workflow-steps">{workflow.steps.map(([label, title]) => <li key={label}><span>{label}</span><strong>{title}</strong></li>)}</ol>
-    {id === 'skills' && <div className="skill-lenses">logic-gap · counter-argument · signpost-check</div>}
     {id === 'pi-agent-platform' && <div className="skill-lenses">SSE stream → client · reconnect → cursor replay</div>}
     <figcaption>{workflow.caption} <a href={workflow.source} target="_blank" rel="noreferrer">Source ↗</a></figcaption>
   </figure>;
