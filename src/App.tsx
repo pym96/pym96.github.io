@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { projects } from './projects';
+import ProjectVisual from './ProjectVisual';
 
 type Category = { id: string; number: string; title: string; en: string; description: string; glyph: string };
 const categories: Category[] = [
@@ -113,7 +114,7 @@ export default function Home() {
   }, []);
   useEffect(() => {
     if (phase === 'collection') heading.current?.focus();
-    function key(e: KeyboardEvent) { if (e.key === 'Escape' && phase !== 'home' && !about.current?.open) back(); }
+    function key(e: KeyboardEvent) { if (e.key === 'Escape' && phase !== 'home' && !about.current?.open && !document.fullscreenElement) back(); }
     addEventListener('keydown', key); return () => removeEventListener('keydown', key);
   }, [phase, paused]);
   useEffect(() => {
@@ -179,7 +180,7 @@ export default function Home() {
       <nav className="collection-nav" aria-label="Switch category">{categories.map(c => <button key={c.id} aria-current={selected.id === c.id ? 'page' : undefined} onClick={() => setSelected(c)}>{c.number} / {c.title}</button>)}</nav>
       <div className="project-list">{projects.filter(project => project.category === selected.id).map((project, index) => <article className="work-entry" key={project.id}>
         <div className="work-index">{String(index + 1).padStart(2, '0')}</div>
-        <div className="work-body"><span className="work-kind">{project.kind}</span><h2>{project.title}</h2>{(project.category === 'academic' || !project.description) && <p className="project-summary">{project.headline}</p>}{project.description && <p>{project.description}</p>}<div className="tags">{project.tags}</div>{project.note && <details className="project-notes"><summary>Notes & attribution</summary><p className="credit">{project.note}</p></details>}</div>
+        <div className="work-body"><span className="work-kind">{project.kind}</span><h2>{project.title}</h2><ProjectVisual id={project.id} />{(project.category === 'academic' || !project.description) && <p className="project-summary">{project.headline}</p>}{project.description && <p>{project.description}</p>}<div className="tags">{project.tags}</div>{project.note && <details className="project-notes"><summary>Notes & attribution</summary><p className="credit">{project.note}</p></details>}</div>
         <div className="project-links">{project.url ? <a href={project.url} target="_blank" rel="noreferrer">{project.linkLabel} ↗</a> : <span className="project-status">{project.status}</span>}{project.secondaryUrl && <a href={project.secondaryUrl} target="_blank" rel="noreferrer">{project.secondaryLabel} ↗</a>}</div>
       </article>)}</div>
       <footer className="collection-footer"><a href="https://github.com/pym96?tab=repositories" target="_blank" rel="noreferrer">MORE ON GITHUB ↗</a><button onClick={back}>Back to the center ↗</button></footer>

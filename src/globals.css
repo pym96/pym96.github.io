@@ -79,3 +79,18 @@
 .collection-footer{font-size:10px;color:#526047;margin-top:10px}.project-status{font-size:10px;color:#4d5c40}
 @media(max-width:900px){.collection{width:78%;margin-left:4%;padding-left:16px;padding-right:16px}.category h2{font-size:20px}}
 @media(max-width:600px){.category h2{font-size:18px;line-height:1.5;margin:9px 0 6px}.category p{font-size:11px;line-height:1.5;max-width:none}.category-enter{font-size:8px;margin-top:10px;letter-spacing:.4px}.category::before{inset:-15px -17px}.category-number{font-size:10px}.category-arrow{font-size:15px}.center-caption p{font-size:9px}.category-2,.category-3{bottom:17%}.collection{width:100%;margin:0;padding:95px 22px 110px}.collection::before{inset:65px -5px 50px;background:linear-gradient(90deg,#f7f7f4f0,#f7f7f4f5 78%,#f7f7f4b8)}.phase-collection .scene{transform:translateX(26vw) scale(.85)}.collection h1{font-size:27px}.collection-heading{margin:25px 0 20px}.collection-heading p{font-size:14px}.collection-nav{gap:12px 16px}.collection-nav button{font-size:10px}.work-entry{grid-template-columns:20px minmax(0,1fr);gap:6px 10px;padding:25px 0}.work-entry h2{font-size:21px}.work-entry p{font-size:14px}.project-links{gap:12px 18px}.project-links a{font-size:11px}.work-kind{font-size:9px}.work-index{font-size:10px}}
+
+/* Project evidence uses the same paper, fine rules and monospace captions as the site. */
+.project-visual{margin:18px 0 20px;border:1px solid #c4ccbc;background:#f1f3ec;overflow:hidden}
+.visual-label{display:flex;justify-content:space-between;gap:12px;padding:10px 13px;font:9px/1.5 var(--mono);letter-spacing:.8px;color:#58654e;border-bottom:1px solid #cbd2c3}
+.project-visual video,.project-visual img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:contain;background:#171c18}
+.visual-image-link{display:block}.visual-image-link:hover{outline:1px solid #75815d;outline-offset:-1px}
+.project-visual figcaption{padding:11px 13px;font:11px/1.7 var(--mono);color:#58634f;border-top:1px solid #cbd2c3;background:var(--paper)}
+.project-visual figcaption a{color:#34472a;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.workflow-steps{list-style:none;margin:0;padding:36px 20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;background-image:radial-gradient(#cad2bf 1px,transparent 1px);background-size:12px 12px}
+.workflow-steps li{position:relative;padding:18px 10px;border:1px solid #a8b59a;background:#f7f7f4;min-width:0}.workflow-steps li+li::before{content:'→';position:absolute;left:-18px;top:36px;font:14px var(--mono);color:#718061}
+.workflow-steps span{display:block;font:8px/1.7 var(--mono);color:#6b775e;letter-spacing:.4px}.workflow-steps strong{display:block;font:12px/1.6 var(--mono);color:#34442b;margin-top:10px;overflow-wrap:anywhere}
+.skill-lenses{padding:0 16px 22px;text-align:center;font:10px/1.8 var(--mono);color:#536344}
+.private-art{white-space:pre;text-align:center;padding:32px 10px;font:17px/1.6 var(--mono);color:#77836a;background:repeating-linear-gradient(135deg,transparent,transparent 9px,#e6eadd 9px,#e6eadd 10px)}
+.work-entry{padding-top:32px;padding-bottom:32px}.work-body{min-width:0}
+@media(max-width:600px){.project-visual{margin:14px 0 18px}.visual-label{padding:8px 10px;font-size:7px;letter-spacing:.4px}.project-visual figcaption{font-size:10px;padding:10px}.workflow-steps{padding:25px 12px;gap:12px}.workflow-steps li{padding:12px 7px}.workflow-steps li+li::before{left:-12px;font-size:10px;top:28px}.workflow-steps span{font-size:6px}.workflow-steps strong{font-size:10px}.skill-lenses{font-size:8px}.project-visual video,.project-visual img{aspect-ratio:16/11}}
